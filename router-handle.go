@@ -2,7 +2,6 @@ package fetch
 
 import (
     "net/http"
-    "fmt"
 )
 
 func (r Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
