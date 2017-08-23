@@ -39,7 +39,46 @@ func stringWriter(f parser.PathArg, s string) {
     f.SetString(s)
 }
 
+func intWriter(f parser.PathArg, s string) {
+    v, err := strconv.ParseInt(s, 10, f.Type.Bits())
+    if err == nil {
+        f.SetInt(v)
+    } else {
+        fmt.Println(err)
+    }
+}
+
+func uintWriter(f parser.PathArg, s string) {
+    v, err := strconv.ParseUint(s, 10, f.Type.Bits())
+    if err == nil {
+        f.SetUint(v)
+    } else {
+        fmt.Println(err)
+    }
+}
+
+func floatWriter(f parser.PathArg, s string) {
+    v, err := strconv.ParseFloat(s, f.Type.Bits())
+    if err == nil {
+        f.SetFloat(v)
+    } else {
+        fmt.Println(err)
+    }
+}
+
 var setters = map[reflect.Kind]func(parser.PathArg, string){
     reflect.Bool: boolWriter,
     reflect.String: stringWriter,
+    reflect.Int: intWriter,
+    reflect.Int8: intWriter,
+    reflect.Int16: intWriter,
+    reflect.Int32: intWriter,
+    reflect.Int64: intWriter,
+    reflect.Uint: uintWriter,
+    reflect.Uint8: uintWriter,
+    reflect.Uint16: uintWriter,
+    reflect.Uint32: uintWriter,
+    reflect.Uint64: uintWriter,
+    reflect.Float32: floatWriter,
+    reflect.Float64: floatWriter
 }
