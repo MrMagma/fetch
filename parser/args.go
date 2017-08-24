@@ -3,7 +3,6 @@ package parser
 import (
     "reflect"
     "sort"
-    "fmt"
 )
 
 var validKinds = [14]reflect.Kind{
@@ -34,9 +33,9 @@ type ArgList []PathArg
 Finds the index of an argument with a given name in a list of arguments using a binary search algorithm. Returns -1 if no argument is found with the given name.
 */
 func (args ArgList) GetArgIndex(name string) int {
-    min, max := 0, len(args) - 1
+    min, max := 0, len(args)
     var avg int
-    for max > min {
+    for max >= min {
         avg = (min + max) / 2
         if name == args[avg].Name {
             return avg
@@ -113,9 +112,7 @@ Extracts data from an arbitrary structure provided by the user, whose public fie
 */
 func ParseArgs(data interface{}) (args ArgList) {
     dataValue := reflect.ValueOf(data).Elem()
-    fmt.Println(dataValue)
     dataType := dataValue.Type()
-    fmt.Println(dataType)
     if dataType.Kind() != reflect.Struct {
         panic("Struct type required")
     }

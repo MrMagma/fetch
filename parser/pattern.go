@@ -3,7 +3,6 @@ package parser
 import (
     "regexp"
     "sort"
-    "fmt"
 )
 
 type ArgType int
@@ -49,7 +48,6 @@ func ParsePattern(patternStr string) (args PatternArgs, pattern string) {
         args = append(args, ArgData{Type: Multi, Name: match[2:len(match) - 2]})
         return "(?P<" + match[2:len(match) - 2] + ">[^]+?)"
     })
-    fmt.Println(pattern)
     sort.Sort(args)
     return
 }

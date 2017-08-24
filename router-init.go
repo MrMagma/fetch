@@ -71,8 +71,8 @@ func argsConsistent(pArgs parser.PatternArgs, args parser.ArgList) bool {
         return true
     }
     var argIndex int
-    for i := 0; i < len(pArgs) - 1; i++ {
-        if pArgs[i].Name == pArgs[i + 1].Name {
+    for i := 0; i < len(pArgs); i++ {
+        if i < len(pArgs) - 1 && pArgs[i].Name == pArgs[i + 1].Name {
             return false
         }
         argIndex = args.GetArgIndex(pArgs[i].Name)
@@ -83,6 +83,6 @@ func argsConsistent(pArgs parser.PatternArgs, args parser.ArgList) bool {
             return false
         }
     }
-    return false
+    return true
 }
 
