@@ -19,9 +19,11 @@ Tries to find a constant listener to handle a request before it is passed on to 
 func (r *Router) serveConstHTTP(response Response, request Request) {
     handlers := r.findConstantHandlers(request.URL.Path)
     for _, h := range handlers {
-        h.handle(&h.data, response, request)
-        if response.Written {
-            break
+        if h.method == request.Method {
+            h.handle(&h.data, response, request)
+            if response.Written {
+                break
+            }
         }
     }
 }
@@ -43,12 +45,14 @@ Finds and tries any variable handler that matches the given request path until e
 */
 func (r *Router) serveVarHTTP(response Response, request Request) {
     for _, h := range r.variable {
-        s := h.pattern.FindStringSubmatch(request.URL.Path)
-        if len(s) == len(h.args) + 1 {
-            h.tryRun(s, response, request)
-        }
-        if response.Written {
-            break
+        if h.method == request.Method {
+            s := h.pattern.FindStringSubmatch(request.URL.Path)
+            if len(s) == len(h.args) + 1 {
+                h.tryRun(s, response, request)
+            }
+            if response.Written {
+                break
+            }
         }
     }
 }
